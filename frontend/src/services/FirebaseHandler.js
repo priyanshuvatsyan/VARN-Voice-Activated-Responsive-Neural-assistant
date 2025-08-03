@@ -1,5 +1,5 @@
 import {db} from './firebase'; 
-import {collection, addDoc,Timestamp, getDocs } from 'firebase/firestore';
+import {collection, addDoc,Timestamp, getDocs, deleteDoc, doc } from 'firebase/firestore';
 
 
 /**
@@ -47,5 +47,16 @@ export async function fetchFromFirebase(type){
     } catch (error) {
         console.log("Error fetching data from Firebase:", error);
         return []; // Return an empty array on error
+    }
+}
+
+// delete notes and tasks from Firebase
+export async function deleteFromFirebase(type, id) {
+    try {
+        await deleteDoc(doc(db, type, id));
+        console.log(`Data with ID ${id} deleted successfully from ${type} collection.`);
+    } catch (error) {
+        console.error("Error deleting data from Firebase:", error);
+        
     }
 }

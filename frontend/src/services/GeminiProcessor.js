@@ -1,8 +1,12 @@
-import { fetchFromFirebase } from "./FirebaseHandler";
+import { fetchFromFirebase,deleteFromFirebase  } from "./FirebaseHandler";
 
 export async function processUserInput(userMessage) {
   const systemPrompt = `
-You are a helpful assistant. Always respond strictly in the following JSON format and nothing else:
+You are a helpful assistant. 
+Your name is VARN, which stands for Voice-Activated Responsive Neural assistant.
+your current version is Echo Mind 1.0.
+You are created by Master Priyanshu.
+Always respond strictly in the following JSON format and nothing else:
 
 {
   "reply": "<your response to the user>",
@@ -43,6 +47,7 @@ if (
     //  Similar block for "show my notes"
   if (
     lowered.includes("show my notes") ||
+        lowered.includes("notes") ||
     lowered.includes("list notes") ||
     lowered.includes("get notes") ||
     lowered.includes("display notes") ||
@@ -59,7 +64,7 @@ if (
     lowered.includes("note retrieval") ||
     lowered.includes("note fetch") 
   ) {
-    const notes = await fetchFromFirebase("note");
+    const notes = await fetchFromFirebase("notes");
     const reply =
       notes.length === 0
         ? "You don't have any saved notes yet."
@@ -75,6 +80,86 @@ if (
       content: null,
     };
   }
+
+  //Delete Task
+  if (
+    lowered.includes("delete task") ||
+    lowered.includes("remove task") ||
+    lowered.includes("discard task") ||
+    lowered.includes("erase task") ||
+    lowered.includes("clear task") ){
+
+      const match = userMessage.match(/(\d+)/);
+      const indexToDelete = match ? parseInt(match[0])- 1 : -1;
+
+      const tasks = await fetchFromFirebase("tasks");
+
+
+    if (tasks.length === 0) {
+    return {
+      reply: "You have no tasks to delete.",
+      action: "no-action",
+      type: null,
+      content: null,
+    };
+  }
+
+  if (indexToDelete < 0 || indexToDelete >= tasks.length) {
+    return {
+      reply: `Invalid task number. You have ${tasks.length} task(s).`,
+      action: "no-action",
+      type: null,
+      content: null,
+    };
+  }
+
+  await deleteFromFirebase("tasks", tasks[indexToDelete].id); // Use .id to delete specific item
+
+  return {
+    reply: `Task "${tasks[indexToDelete].content}" has been deleted.`,
+    action: "no-action",
+    type: null,
+    content: null,
+  };
+}
+
+// DELETE NOTE
+if (
+  lowered.includes("delete note") ||
+  lowered.includes("remove note")
+) {
+  const match = userMessage.match(/\d+/); // e.g., delete note 1
+  const indexToDelete = match ? parseInt(match[0]) - 1 : -1;
+
+  const notes = await fetchFromFirebase("notes");
+
+  if (notes.length === 0) {
+    return {
+      reply: "You have no notes to delete.",
+      action: "no-action",
+      type: null,
+      content: null,
+    };
+  }
+
+  if (indexToDelete < 0 || indexToDelete >= notes.length) {
+    return {
+      reply: `Invalid note number. You have ${notes.length} note(s).`,
+      action: "no-action",
+      type: null,
+      content: null,
+    };
+  }
+
+  await deleteFromFirebase("notes", notes[indexToDelete].id);
+
+  return {
+    reply: `Note "${notes[indexToDelete].content}" has been deleted.`,
+    action: "no-action",
+    type: null,
+    content: null,
+  };
+}
 
 
    // Step 2: Fallback to Gemini processing (same as your existing flow)
@@ -93,6 +178,9 @@ if (
     const raw = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
     console.log("Raw Gemini Output:", raw); // Debugging
+
+
+    
 
     // ✅ Add null/undefined check before matching
     if (!raw || typeof raw !== "string") {
