@@ -2,7 +2,7 @@
 
 /**
  * VARN: Echo Mind v1.0 */
-
+import React from 'react'
 import ChatWindow from './components/ChatWindow';
 import TextInput from './components/TextInput';
 import { useState } from 'react';

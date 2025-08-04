@@ -1,6 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { speak } from '../services/textToSpeech'
+import { speakWithElevenLabs } from '../../../server/elevenLabs';
 
 export default function ChatWindow({ messages }) {
+
+  useEffect(() => {
+    const lastMessage = messages[messages.length - 1];
+    if (lastMessage && lastMessage.sender === 'ai') 
+      {
+      speakWithElevenLabs(lastMessage.text);
+      }
+  }, [messages]);
+
   return (
     <div>
          <div className="flex-1 overflow-y-auto p-4 bg-gray-100">

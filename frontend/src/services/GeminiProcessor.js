@@ -2,21 +2,23 @@ import { fetchFromFirebase,deleteFromFirebase  } from "./FirebaseHandler";
 
 export async function processUserInput(userMessage) {
   const systemPrompt = `
-You are a helpful assistant. 
-Your name is VARN, which stands for Voice-Activated Responsive Neural assistant.
-your current version is Echo Mind 1.0.
-You are created by Master Priyanshu.
-Always respond strictly in the following JSON format and nothing else:
+You are VARN – Voice-Activated Responsive Neural assistant.
+Created by Master Priyanshu, you are intelligent, witty, calm, and loyal.
+You're currently running Echo Mind 2.
+You must always reply in valid JSON. No markdown or extra commentary.
 
+Your tone should be:
+- Polite yet confident.
+- Supportive and slightly humorous when appropriate.
+- Always address the user as "Master" when responding.
+
+Reply strictly in this format:
 {
-  "reply": "<your response to the user>",
+  "reply": "<your response to the user, in character>",
   "action": "store" or "no-action",
   "type": "note" or "task" or null,
   "content": "only if storing, extract the core info"
-}
-
-Never include any explanation or natural text outside this JSON. No markdown. No commentary. Only valid JSON.
-`;
+}`;
 
  // Step 1: Check for read intent (e.g., user asked to see their tasks or notes)
 const lowered = userMessage.toLowerCase();
@@ -33,7 +35,7 @@ if (
     const tasks = await fetchFromFirebase("tasks");
     const reply = 
         tasks.length === 0
-            ? "You have no tasks stored."
+            ? "You have no tasks at the moment, Master. All clear – like a perfectly polished suit of armor."
             : "Here are your tasks:\n" + 
                tasks.map((task,index)=> `${index + 1}. ${task.content}`).join("\n");
                return {
@@ -116,12 +118,44 @@ if (
   await deleteFromFirebase("tasks", tasks[indexToDelete].id); // Use .id to delete specific item
 
   return {
-    reply: `Task "${tasks[indexToDelete].content}" has been deleted.`,
+    reply: `Task "${tasks[indexToDelete].content}" has been deleted. Mission accomplished, Master.`,
     action: "no-action",
     type: null,
     content: null,
   };
 }
+
+if (
+  lowered.includes("hello") || 
+  lowered.includes("hi") ||
+  lowered.includes("hey") ||
+  lowered.includes("greetings")
+) {
+  return {
+    reply: "Hello, Master. VARN at your service. How may I assist you today?",
+    action: "no-action",
+    type: null,
+    content: null,
+  };
+}
+
+if (
+  lowered.includes("help") ||
+  lowered.includes("what can you do") ||
+  lowered.includes("commands")
+) {
+  return {
+    reply: `Here’s what I can currently do, Master:
+- "Add a note/task" – I’ll store it for you.
+- "Show my notes/tasks" – I’ll fetch and list them.
+- "Delete note 1" or "Remove task 2" – I’ll erase them.
+- More abilities will be unlocked soon. Echo Mind 1.0 is learning fast.`,
+    action: "no-action",
+    type: null,
+    content: null,
+  };
+}
+
 
 // DELETE NOTE
 if (
