@@ -6,6 +6,7 @@ Voice input via Web Speech API
 ElevenLabs voice output (high quality)
 Gemini API for smart responses
 Task + notes storage in Firebase
+
 🔧 Now Working On
 Accept Voice Commands as Input (speech-to-text → Gemini prompt)
 Add Memory System (dynamic user memory, not just tasks/notes)

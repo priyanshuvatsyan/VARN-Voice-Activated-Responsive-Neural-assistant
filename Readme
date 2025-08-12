@@ -1,6 +1,6 @@
 
 
-# 🧠 VARN: EchoMind v1.0
+# 🧠 VARN: EchoMind v2.0
 
 **Voice-Activated Responsive Neural assistant**
 A personal AI assistant powered by voice input, Gemini AI integration, and memory management — built using **React** and **Firebase**.
@@ -64,23 +64,6 @@ A personal AI assistant powered by voice input, Gemini AI integration, and memor
 
 ---
 
-## 📁 Folder Structure
-
-```
-VARN-EchoMind/
-│
-├── public/
-├── src/
-│   ├── components/
-│   ├── firebase/
-│   ├── hooks/
-│   ├── utils/
-│   ├── App.jsx
-│   └── main.jsx
-├── .env
-├── vite.config.js
-└── README.md
-```
 
 
 ## ✅ Completed in v1.0

@@ -18,11 +18,12 @@ export async function speakWithElevenLabs(text) {
       },
       {
         responseType: 'arraybuffer',
-        headers: {
-          'xi-api-key': API_KEY,
-          'Content-Type': 'application/json',
-          'Accept': 'audio/mpeg',
-        },
+       headers: {
+  'Authorization': `Bearer ${API_KEY}`,
+  'Content-Type': 'application/json',
+  'Accept': 'audio/mpeg',
+}
+
       }
     );
 

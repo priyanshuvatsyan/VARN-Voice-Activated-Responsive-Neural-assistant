@@ -5,13 +5,23 @@ export function initVoices() {
 
   const loadVoices = () => {
     const voices = synth.getVoices();
-    selectedVoice = voices.find(v => v.name.includes("Zira")) 
-                  || voices.find(v => v.name.toLowerCase().includes("female"));
-    
+
+    // Log all available voices (only once)
+    console.log("Available voices:");
+    voices.forEach((v, i) => console.log(`${i + 1}. ${v.name} (${v.lang})`));
+
+    // Prioritized voice selection
+    selectedVoice =
+      voices.find(v => v.name === "Google US English") ||
+      voices.find(v => v.name.includes("Zira")) ||
+      voices.find(v => v.name.toLowerCase().includes("female")) ||
+      voices.find(v => v.lang === "en-US") ||
+      voices[0]; // fallback
+
     if (selectedVoice) {
-      console.log("Voice selected:", selectedVoice.name);
+      console.log("✅ Voice selected:", selectedVoice.name, selectedVoice.lang);
     } else {
-      console.warn("Female voice not found. Using default.");
+      console.warn("⚠️ No suitable voice found. Using system default.");
     }
   };
 

@@ -4,7 +4,7 @@ export async function processUserInput(userMessage) {
   const systemPrompt = `
 You are VARN – Voice-Activated Responsive Neural assistant.
 Created by Master Priyanshu, you are intelligent, witty, calm, and loyal.
-You're currently running Echo Mind 2.
+You're currently running on version Echo Mind 2.
 You must always reply in valid JSON. No markdown or extra commentary.
 
 Your tone should be:
@@ -24,12 +24,8 @@ Reply strictly in this format:
 const lowered = userMessage.toLowerCase();
 if (
     lowered.includes("show my tasks") ||
-    lowered.includes("list tasks") ||
-    lowered.includes("get tasks") ||
-    lowered.includes("display tasks") ||
-    lowered.includes("show tasks") ||
-    lowered.includes("list my tasks") ||
-    lowered.includes("get my tasks") ||
+
+    lowered.includes("fetch my tasks") ||
     lowered.includes("display my tasks") 
 ) {
     const tasks = await fetchFromFirebase("tasks");
@@ -49,22 +45,14 @@ if (
     //  Similar block for "show my notes"
   if (
     lowered.includes("show my notes") ||
-        lowered.includes("notes") ||
-    lowered.includes("list notes") ||
-    lowered.includes("get notes") ||
-    lowered.includes("display notes") ||
-    lowered.includes("show notes") ||
-    lowered.includes("list my notes") ||
-    lowered.includes("get my notes") ||
+
     lowered.includes("display my notes") ||
-    lowered.includes("retrieve notes") ||
-    lowered.includes("fetch notes") ||
-    lowered.includes("collect notes") ||
-    lowered.includes("gather notes") ||
-    lowered.includes("note list") ||
-    lowered.includes("note collection") ||
-    lowered.includes("note retrieval") ||
-    lowered.includes("note fetch") 
+
+    lowered.includes("fetch my notes") ||
+
+
+    lowered.includes("note list") 
+
   ) {
     const notes = await fetchFromFirebase("notes");
     const reply =

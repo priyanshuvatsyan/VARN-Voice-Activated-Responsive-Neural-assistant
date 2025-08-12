@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { speak } from '../services/textToSpeech'
+import { speak, initVoices } from '../services/textToSpeech'
 import { speakWithElevenLabs } from '../../../server/elevenLabs';
 
 export default function ChatWindow({ messages }) {
@@ -8,7 +8,8 @@ export default function ChatWindow({ messages }) {
     const lastMessage = messages[messages.length - 1];
     if (lastMessage && lastMessage.sender === 'ai') 
       {
-      speakWithElevenLabs(lastMessage.text);
+        initVoices()
+      speak(lastMessage.text);
       }
   }, [messages]);
 
