@@ -1,0 +1,14 @@
+.app-container {
+  display: flex;
+  justify-content: flex-end; /* Push chat to the right */
+  align-items: stretch;
+  height: 10vh;
+  background: radial-gradient(circle at center, #0a0f1c, #05070d);
+}
+
+.chat-panel {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  border-left: 2px solid rgba(0, 255, 255, 0.2);
+}

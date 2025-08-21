@@ -8,13 +8,13 @@ Gemini API for smart responses
 Task + notes storage in Firebase
 
 🔧 Now Working On
-Accept Voice Commands as Input (speech-to-text → Gemini prompt)
-Add Memory System (dynamic user memory, not just tasks/notes)
-Store facts like name, preferences, recurring patterns
-Possibly store in Firebase with a “remember this” trigger
-Faster Voice Output
+Accept Voice Commands as Input (speech-to-text → Gemini prompt) : done
+Add Memory System (dynamic user memory, not just tasks/notes)   : done
+Store facts like name, preferences, recurring patterns 
+dynamic storage and fetch : done
+Faster Voice Output 
 Optimize fetch/render flow
-Explore short cache for repeated phrases
+
 
 
 VARN: NexusMind 1.0 (Next Phase)
@@ -22,15 +22,15 @@ Objective: Make VARN intelligent, connected, and contextually aware
 
 🚀 Planned Features
 Internet Access
-Real-time web search using server-side proxy (e.g., weather, facts, news)
-Search Functionality
-Search stored tasks, notes, or memory
-Natural language queries like “What did I say about my trip?” or “Find my goal from last week”
-Intent Classification
+Natural language queries like “What did I say about my trip?” or “Find my goal from last week”: done
+Intent Classification : done
 Detect whether input is:
 A command (e.g. "remind me…")
 A general query
 A reflection or journal-type note
+Real-time web search using server-side proxy (e.g., weather, facts, news)
+Search Functionality
+Search stored tasks, notes, or memory
 Improves decision-making & response accuracy
 Context Awareness (New)
 

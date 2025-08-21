@@ -7,9 +7,9 @@ export function initVoices() {
     const voices = synth.getVoices();
 
     // Log all available voices (only once)
-    console.log("Available voices:");
+  /*   console.log("Available voices:");
     voices.forEach((v, i) => console.log(`${i + 1}. ${v.name} (${v.lang})`));
-
+ */
     // Prioritized voice selection
     selectedVoice =
       voices.find(v => v.name === "Google US English") ||
