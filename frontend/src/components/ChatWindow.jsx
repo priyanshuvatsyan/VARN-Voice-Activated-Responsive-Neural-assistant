@@ -3,18 +3,17 @@ import { speak, initVoices } from '../services/textToSpeech';
 import './../styles/ChatWindow.css';
 
 export default function ChatWindow({ messages }) {
-  
   useEffect(() => {
     const lastMessage = messages[messages.length - 1];
 
-    // ✅ Only speak if AI message AND not muted
+    // ✅ Speak only if AI message AND not muted
     if (lastMessage && lastMessage.sender === 'ai' && !lastMessage.muted) {
       initVoices();
       speak(lastMessage.text);
     }
   }, [messages]);
 
-  // 🔹 Helper to format message text into a list if needed
+  // 🔹 Format message text into a list if needed
   const formatMessage = (text) => {
     if (!text) return null;
 
@@ -38,28 +37,35 @@ export default function ChatWindow({ messages }) {
     <div className="chat-window">
       {messages.map((msg, index) => {
         const isStoreAction = msg.action === 'store';
+        const isRetrieveAction = msg.action === 'retrieve';
+        const isDeleteAction = msg.action === 'delete'; // 🔥 Recognize delete
 
-       return (
-  <div
-    key={index}
-    className={`message ${msg.sender === 'user' ? 'user' : 'ai'} ${
-      isStoreAction ? 'store-message' : msg.action === 'retrieve' ? 'retrieve-message' : ''
-    }`}
-  >
-    {isStoreAction ? (
-      <div>
-        <strong>📝 Stored:</strong> {formatMessage(msg.text)}
-      </div>
-    ) : msg.action === 'retrieve' ? (
-      <div>
-        <strong>📂 Retrieved:</strong> {formatMessage(msg.text)}
-      </div>
-    ) : (
-      formatMessage(msg.text)
-    )}
-  </div>
-);
-
+        return (
+          <div
+            key={index}
+            className={`message ${msg.sender === 'user' ? 'user' : 'ai'} ${
+              isStoreAction ? 'store-message' : 
+              isRetrieveAction ? 'retrieve-message' : 
+              isDeleteAction ? 'delete-message' : ''
+            }`}
+          >
+            {isStoreAction ? (
+              <div>
+                <strong>📝 Stored:</strong> {formatMessage(msg.text)}
+              </div>
+            ) : isRetrieveAction ? (
+              <div>
+                <strong>📂 Retrieved:</strong> {formatMessage(msg.text)}
+              </div>
+            ) : isDeleteAction ? (
+              <div>
+                <strong>🗑 Deleted:</strong> {formatMessage(msg.text)}
+              </div>
+            ) : (
+              formatMessage(msg.text)
+            )}
+          </div>
+        );
       })}
     </div>
   );

@@ -1,30 +1,8 @@
-import { fetchFromFirebase, deleteFromFirebase, storeToFirebase } from "./FirebaseHandler";
 
-//helper to find the category name
-function normalizeCategory(rawCategory) {
-  if (!rawCategory) {
-    return "note"; // Default to 'note' if no category is provided
-
-  }
-  let cat = rawCategory.toLowerCase().replace(/\s+/g, "_"); // convert spaces to underscores personal info to personal_info
-
-  // categories that  are too long put them into notes
-  if (cat.length > 30 || /\d{4,}/.test(cat)) {
-    return "notes";
-  }
-
-  //comman useful categories
-  const commonCategories = ["tasks", "notes", "workout_routine", "shopping_list", "contacts"];
-  if (commonCategories.includes(cat)) {
-    return cat;
-  }
-  return cat; // Return the normalized category
-
-}
 
 export async function processUserInput(userMessage) {
   const systemPrompt = `
-You are VARN – Voice-Activated Responsive Neural assistant.
+You are VARN (वर्ण) – Voice-Activated Responsive Neural assistant.
 Created by Master Priyanshu, you are intelligent, witty, calm, and loyal.
 You're currently running on version Echo Mind 2.
 You must always reply in valid JSON. No markdown or extra commentary.
@@ -53,63 +31,10 @@ Reply strictly in this format:
 }`;
 
 
-  // Step 1: Check for read intent (e.g., user asked to see their tasks or notes)
+  
   const lowered = userMessage.toLowerCase();
   //Dynamic retrieval (eg. show my tasks)
-  if (
-    lowered.includes("show my") ||
-    lowered.includes("fetch my") ||
-    lowered.includes("display my")
-  ) {
-    const category = lowered.replace("show my ", "").replace("fetch my ", "").replace("display my ", "").trim().replace(/\s+/g, "_");
-
-    const data = await fetchFromFirebase(category);
-    const reply = data.length === 0
-      ? `You have no items saved in ${category}, Master.`
-      : `Here’s what’s in your ${category}:\n` +
-      data.map((item, i) => `${i + 1}. ${item.content}`).join("\n");
-
-    return {
-      reply,
-      action: "no-action",
-      category: null,
-      content: null
-    };
-  }
-
-
-
-
-  // 🔹 Dynamic deletion (e.g., "delete workout routine 2")
-  if (lowered.startsWith("delete") || lowered.startsWith("remove") || lowered.startsWith("clear")) {
-    const parts = lowered.split(" ");
-    const category = parts[1] ? parts[1].replace(/\s+/g, "_") : null;
-    const numberMatch = lowered.match(/\d+/);
-    const indexToDelete = numberMatch ? parseInt(numberMatch[0]) - 1 : -1;
-
-    if (!category) {
-      return { reply: "Please specify what you want to delete, Master.", action: "no-action", category: null, content: null };
-    }
-
-    const items = await fetchFromFirebase(category);
-    if (items.length === 0) {
-      return { reply: `You have no items in ${category} to delete, Master.`, action: "no-action", category: null, content: null };
-    }
-
-    if (indexToDelete < 0 || indexToDelete >= items.length) {
-      return { reply: `Invalid number. You have ${items.length} item(s) in ${category}.`, action: "no-action", category: null, content: null };
-    }
-
-    await deleteFromFirebase(category, items[indexToDelete].id);
-
-    return {
-      reply: `Deleted "${items[indexToDelete].content}" from ${category}, Master.`,
-      action: "no-action",
-      category: null,
-      content: null
-    };
-  }
-
+  
   if (
     lowered.includes("hello") ||
     lowered.includes("hi") ||
@@ -172,8 +97,6 @@ Reply strictly in this format:
 
     const parsed = JSON.parse(match[0]);
 
-     // ✅ Normalize category & smart fallback
-    parsed.category = normalizeCategory(parsed.category);
     
 
     return parsed;

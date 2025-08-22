@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import stringSimilarity from "string-similarity";
 import { processUserInput } from '../services/GeminiProcessor';
-import { storeToFirebase, fetchFromFirebase } from '../services/FirebaseHandler';
+import { storeToFirebase, fetchFromFirebase, deleteFromFirebase } from '../services/FirebaseHandler';
 import './../styles/TextInput.css';
 
 export default function TextInput({ onMessage, onToggleMute }) {
@@ -42,7 +42,7 @@ export default function TextInput({ onMessage, onToggleMute }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!input.trim()) return;
-    
+
     onMessage({ sender: 'user', text: input });
     setLoading(true);
 
@@ -56,19 +56,32 @@ export default function TextInput({ onMessage, onToggleMute }) {
     if (result.action === 'store') {
       await storeToFirebase(result.content);
       onMessage({ sender: 'ai', text: result.content, action: 'store', muted });
-    } else if (result.action === 'retrieve') {
+    } 
+    else if (result.action === 'retrieve') {
       const fetched = await fetchFromFirebase(input);
       onMessage({
         sender: 'ai',
-        text: fetched.ok 
-          ? `Here’s what I found in ${fetched.category}: ${fetched.results.join(", ")}`
+        text: fetched.ok
+          ? `Here’s what I found in ${fetched.category}:\n` +
+          fetched.results.map((r, i) => `${i + 1}. ${r.content}`).join("\n")
           : "Sorry, I couldn't fetch that.",
+
         action: 'retrieve',
         muted
       });
     }
-  };
-
+    else if (result.action === 'delete'){
+      const deleted = await deleteFromFirebase(input);
+      onMessage({
+        sender: 'ai',
+        text: deleted.ok
+          ? `Deleted item from ${deleted.category}.`
+          : "Sorry, I couldn't delete that.",
+          action: 'delete',
+          muted
+    });
+  }
+  }
   const handleVoiceInput = () => {
     if (!recognitionRef.current) return;
     listening ? recognitionRef.current.stop() : recognitionRef.current.start();
@@ -96,7 +109,7 @@ export default function TextInput({ onMessage, onToggleMute }) {
           }
         }}
       />
-      
+
       {/* Mic Button */}
       <button
         type="button"
@@ -104,7 +117,7 @@ export default function TextInput({ onMessage, onToggleMute }) {
         className={`speak-button ${listening ? 'listening' : ''}`}
         aria-label={listening ? 'Stop listening' : 'Start listening'}
       >
-        
+
       </button>
 
       {/* Mute Button */}
