@@ -1,101 +1,60 @@
+# VARN – Voice-Activated Responsive Neural Assistant
 
+![Version](https://img.shields.io/badge/version-NexusMind%201.0-blue.svg) 
+![Status](https://img.shields.io/badge/status-active-success.svg) 
+![Tech_Stack](https://img.shields.io/badge/techstack-React%20%7C%20Firebase%20%7C%20Voice_API-lightgrey.svg)
 
-# 🧠 VARN: EchoMind v2.0
-
-**Voice-Activated Responsive Neural assistant**
-A personal AI assistant powered by voice input, Gemini AI integration, and memory management — built using **React** and **Firebase**.
-
----
-
-## ✨ Features
-
-* 🎙️ **Voice Command Input**
-  Speak naturally to add tasks, delete tasks, mark them as done, or ask for help.
-
-* 🤖 **Gemini API-Powered AI**
-  Understands your natural language and interprets commands intelligently.
-
-* 📥 **Task Management**
-  Add, delete, or mark tasks as done using voice. Tasks are stored persistently.
-
-* 🧠 **Selective Memory**
-  Assistant remembers only when you say things like “remember this”.
-
-* 🔊 **Speech Output**
-  AI replies are spoken back to the user using Text-to-Speech.
-
-* 🌐 **Firebase Backend**
-  Secure storage of tasks, memory, and assistant interactions.
+_VARN is my personal AI assistant project, designed to evolve with every version, gaining new capabilities and becoming more context-aware and autonomous._
 
 ---
 
-## 📦 Tech Stack
-
-| Layer        | Tech                               |
-| ------------ | ---------------------------------- |
-| Frontend     | React, Vite, JavaScript            |
-| Voice Input  | Web Speech API (SpeechRecognition) |
-| Voice Output | SpeechSynthesis API                |
-| Backend      | Firebase (Firestore)               |
-| AI Engine    | Gemini API (Google AI)             |
-| Express      | Api handeling                      |
----
-
-## 🛠️ How It Works
-
-1. **User speaks a command.**
-2. The system uses the Web Speech API to transcribe voice to text.
-3. The transcription is sent to Gemini with a structured prompt.
-4. Gemini returns an action: create / delete / mark\_done / remember / respond.
-5. The frontend parses the action and updates Firebase or replies back.
-6. AI response is spoken aloud using the Web Speech API (Text-to-Speech).
+## **Tech Stack**
+- **Frontend:** React.js  
+- **Backend:** Firebase (Realtime Database + Storage)  
+- **AI Integration:** Gemini API (planned), Web Speech API for voice input/output  
+- **Other Tools:** Browser Speech APIs for text-to-speech and speech-to-text  
 
 ---
 
-## 📋 Example Commands
+## **Version History**
 
-| Say This                                | What Happens               |
-| --------------------------------------- | -------------------------- |
-| "Add a task to buy milk tomorrow"       | Adds task to Firebase      |
-| "Mark the milk task as done"            | Marks task as completed    |
-| "Delete the task about groceries"       | Deletes task from Firebase |
-| "Remember that I have a meeting at 4PM" | Saves memory               |
-| "What did I ask you to remember?"       | Reads stored memories      |
-
----
-
-
-
-## ✅ Completed in v1.0
-
-* Voice input/output
-* Gemini integration
-* Task add/delete/mark-done
-* Memory system (on explicit "remember")
-* Firebase integration
-* Simple UI with real-time task list
+### **VARN: EchoMind 1.0 (Initial Release)**  
+- Basic **voice command understanding** (static commands)  
+  - Commands like: “show my…”, “display my…”, “delete my…”  
+- **Basic storage functionality:**  
+  - Add tasks and fetch tasks  
+  - Delete tasks (predefined static categories)  
+- No contextual memory (manual/explicit data retrieval)  
 
 ---
 
-## 🔮 Roadmap for v1.1+
-
-* Contextual memory (auto remember things)
-* Reminder notifications (via local or push)
-* Chat UI for history
-* Intent classification using custom LLM
-* Analytics on task usage
+### **VARN: EchoMind 2.0**
+- **Voice output added** – VARN now speaks its responses  
+- **Name awareness** – Responds to its own name in commands  
+- **Category distribution** – Tasks organized into fixed categories with improved fetch/delete functionality  
 
 ---
 
-## 🧑‍💻 Author
-
-**Priyanshu Vatsyan**
-Building VARN as a modular, evolving personal assistant.
+### **VARN: NexusMind 1.0 (Current Work)**  
+- **Dynamic task handling introduced:**  
+  - Add/delete/fetch tasks dynamically (no hardcoded categories)  
+  - Auto-separation of tasks into categories  
+- **Improved voice processing & smarter task management**
 
 ---
 
-## 📝 License
+### **VARN: NexusMind 2.0 (Upcoming Features)**  
+- **Internet access** for real-time information retrieval  
+- **Context awareness** – remembers previous interactions within a session  
+- **Session-based memory & enhanced conversations**  
+- Deeper **AI integration** for natural and adaptive responses  
 
-This project is open-source and free to use under the [MIT License](./LICENSE).
+---
+
+## **Future Goals**
+- Implement reminders & scheduling  
+- Full offline support with caching  
+- Expand to mobile and desktop platforms  
+- Long-term: autonomous assistant with continuous learning  
 
 ---

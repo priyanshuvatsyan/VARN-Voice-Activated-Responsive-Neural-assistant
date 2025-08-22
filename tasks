@@ -24,10 +24,11 @@ Objective: Make VARN intelligent, connected, and contextually aware
 Internet Access
 Natural language queries like “What did I say about my trip?” or “Find my goal from last week”: done
 Intent Classification : done
-Detect whether input is:
+Detect whether input is: 
 A command (e.g. "remind me…")
 A general query
-A reflection or journal-type note
+A reflection or journal-type note : Done
+Dynamic Self awareness
 Real-time web search using server-side proxy (e.g., weather, facts, news)
 Search Functionality
 Search stored tasks, notes, or memory
